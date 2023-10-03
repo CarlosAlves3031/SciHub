@@ -1,9 +1,9 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-import UserService from 'App/Services/UserService'
+import UserService from 'App/Service/UserService'
 
 export default class UsersController {
     public async create({ view }: HttpContextContract) {
-        return view.render('auth/login')
+        return view.render('login/index')
     }
 
     public async store({ request, response }: HttpContextContract) {

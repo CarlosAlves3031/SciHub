@@ -3,13 +3,14 @@ import Comment from 'App/Models/Comment'
 import Moment from 'App/Models/Post'
 
 export default class CommentsController {
+  
   public async store({ request, response, params }: HttpContextContract) {
     const body = request.body()
-    const momentId = params.momentId
+    const postId = params.postId
 
-    await Moment.findOrFail(momentId)
+    await Moment.findOrFail(postId)
 
-    body.momentId = momentId
+    body.postId = postId
 
     const comment = await Comment.create(body)
 
@@ -19,5 +20,13 @@ export default class CommentsController {
       message: 'Comentário adicionado com sucesso!',
       data: comment,
     }
+  }
+  public async index({ params }: HttpContextContract) {
+    const postId = params.postId
+
+    const comments = await Comment.query().where('post_id', postId)
+
+    return comments
+    //view.render('comments/index', { comments: comments })
   }
 }

@@ -1,11 +1,8 @@
 import { DateTime } from 'luxon'
-import { BaseModel, belongsTo, column, hasMany, HasMany, BelongsTo} from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Comment from './Comment'
-import User from './User'
-export default class Post extends BaseModel {
-  @belongsTo(() => User)
-  public user: BelongsTo<typeof User>
 
+export default class Post extends BaseModel {
   @hasMany(() => Comment)
   public comments: HasMany<typeof Comment>
 
@@ -14,7 +11,7 @@ export default class Post extends BaseModel {
 
   @column()
   public title: string
-  
+
   @column()
   public description: string
 

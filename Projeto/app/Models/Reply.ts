@@ -1,7 +1,11 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column, BelongsTo,belongsTo} from '@ioc:Adonis/Lucid/Orm'
+import Post from 'App/Models/Post'
 
 export default class Reply extends BaseModel {
+  @belongsTo(() => Post)
+  public post: BelongsTo<typeof Post>
+  
   @column({ isPrimary: true })
   public id: number
 

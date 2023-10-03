@@ -1,10 +1,7 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
+import { BaseModel, column } from '@ioc:Adonis/Lucid/Orm'
 
-export default class Reply extends BaseModel {
-  @hasMany(() => Reply)
-  public replies: HasMany<typeof Reply>
-
+export default class Comment extends BaseModel {
   @column({ isPrimary: true })
   public id: number
 
@@ -15,8 +12,8 @@ export default class Reply extends BaseModel {
   public text: string
 
   @column()
-  public momentId: number
-   
+  public postId: number
+
   @column.dateTime({ autoCreate: true })
   public createdAt: DateTime
 

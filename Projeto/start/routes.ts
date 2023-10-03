@@ -23,10 +23,10 @@ import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
     Route.group(() => {
-        Route.resource('', 'MomentsController').apiOnly()
-        Route.post('/moments/:momentId/comments', 'CommentsController.store')
-        Route.get('/:id', 'MomentsController.show') 
-        }).prefix('/moments')
+        Route.resource('', 'PostsController').apiOnly()
+        Route.post('/:postId/comments', 'CommentsController.store')
+        Route.get('/:id', 'PostsController.show') 
+        }).prefix('/posts')
 
     Route.group(() => {
         Route.get('/', 'UsersController.index')
@@ -39,7 +39,7 @@ Route.group(() => {
   
 Route.group(() => {
     Route.group(() => {
-        Route.get('/', 'UsersController.create')
+        Route.get('/login', 'UsersController.create')
         Route.post('/', 'UsersController.store')
     }).prefix('/users')
 }).namespace('App/Controllers/Http/Web')
