@@ -18,7 +18,6 @@
 |
 */
 
-//import Response from '@ioc:Adonis/Core/Response'
 import Route from '@ioc:Adonis/Core/Route'
 
 Route.group(() => {
@@ -26,26 +25,26 @@ Route.group(() => {
         Route.resource('', 'PostsController').apiOnly()
         Route.post('/:postId/comments', 'CommentsController.store')
         Route.get('/:id', 'PostsController.show') 
-        }).prefix('/posts')
+    }).prefix('/posts')
 
-    Route.group(() => {
-        Route.get('/', 'UsersController.index')
-        Route.get('/:id', 'UsersController.show') 
-        Route.delete('/:id', 'UsersController.destroy')
-        Route.patch('/:id', 'UsersController.update')
-        Route.post('/', 'UsersController.store').as('users.store')
-    }).prefix('/users')
-}).prefix('/api').namespace('App/Controllers/Http/Api')
-  
+  Route.group(() => {
+    Route.get('/', 'UsersController.index')
+    Route.get('/:id', 'UsersController.show')
+    Route.delete('/:id', 'UsersController.destroy')
+    Route.patch('/:id', 'UsersController.update')
+    Route.post('/', 'UsersController.store')
+  }).prefix('/users')
+})
+  .prefix('/api')
+  .namespace('App/Controllers/Http/Api')
+
 Route.group(() => {
-    Route.group(() => {
-        Route.get('/login', 'UsersController.create')
-        Route.post('/', 'UsersController.store')
-    }).prefix('/users')
+  Route.group(() => {
+    Route.get('/', 'UsersController.index').as('users.index')
+    Route.get('/new', 'UsersController.create').as('users.create')
+    Route.post('/', 'UsersController.store').as('users.store')
+    Route.get('/:id/update', 'UsersController.update').as('users.update')
+    Route.patch('/:id', 'UsersController.patch').as('users.patch')
+    Route.get('/:id', 'UsersController.show').as('users.show')
+  }).prefix('/users')
 }).namespace('App/Controllers/Http/Web')
-
-
-//ROTA DE TESTE
-Route.get('/teste', async ({ view }) => {
-    return view.render('layouts/login')
-  })
