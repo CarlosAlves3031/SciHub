@@ -1,2 +1,5 @@
+import Alpine from 'alpinejs'
+
 import '../css/app.css'
-import 'alpinejs'
+
+Alpine.start()

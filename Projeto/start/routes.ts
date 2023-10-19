@@ -43,3 +43,9 @@ Route.group(() => {
         Route.post('/', 'UsersController.store')
     }).prefix('/users')
 }).namespace('App/Controllers/Http/Web')
+
+
+//ROTA DE TESTE
+Route.get('/teste', async ({ view }) => {
+    return view.render('layouts/login')
+  })
