@@ -1,24 +1,48 @@
 @layout('layouts/main')
-
 @section('content')
-  <p>
-    Crie o seu usuário
-  </p>
-  <form action="/users" method="POST">
-    <div>
-      <label>
-        Email:
-      </label>
-      <input type="email" name="email" placeholder="Email" />
+
+<div class="w-screen h-screen lg:h-full lg:w-full">
+      <div class="flex flex-col-reverse justify-evenly items-center w-full h-full gap-5 px-16 py-8 lg:flex-row">
+
+        <form class="bg-white rounded-lg shadow relative p-6 rounded-xl flex flex-col gap-3 w-full max-w-xl" action="/users" method="POST">
+          
+          <h3 class="text-xl font-medium text-center text-gray-900 dark:text-white">Cadastre-se</h3>
+          <div class="flex flex-col gap-2 w-full">
+            <label for="email" class="text-sm font-medium text-gray-900">
+              E-mail
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              class="px-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+              placeholder="nome@company.com"
+              required
+            />
+          </div>
+          <div class="flex flex-col gap-2 w-full">
+            <label for="password" class="text-sm font-medium text-gray-900">
+              Senha
+            </label>
+            <input
+              type="password"
+              name="password"
+              id="password"
+              placeholder="••••••••"
+              class="px-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+              required
+            />
+          </div>
+          <div class="">
+            <a href="{{ route('/users') }}" class="text-sm text-blue-700 hover:underline dark:text-blue-500">
+              Já possui login?
+            </a>
+          </div>
+          <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            Criar
+          </button>
+        </form>     
+      </div>
     </div>
-    <div>
-      <label>
-        Senha:
-      </label>
-      <input type="password" name="password" placeholder="Senha" />
-    </div>
-    <button type="submit">
-      Criar
-    </button>
-  </form>
+
 @end

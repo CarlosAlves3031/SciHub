@@ -10,6 +10,8 @@ export default class Moments extends BaseSchema {
       table.string('description')
       table.string('image')
 
+      table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE')
+
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
        */
