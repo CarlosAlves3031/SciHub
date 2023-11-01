@@ -68,3 +68,6 @@ Route.group(() => {
     .prefix('/posts')
     .as('posts')
 }).namespace('App/Controllers/Http/Web')
+
+
+Route.get('/login', 'SessionsController.create').as('sessions.create')
