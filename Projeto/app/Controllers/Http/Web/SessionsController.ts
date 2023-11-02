@@ -1,4 +1,4 @@
-import { Response } from '@adonisjs/core/build/standalone'
+//import { Response } from '@adonisjs/core/build/standalone'
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 
 export default class SessionsController {
@@ -10,9 +10,11 @@ export default class SessionsController {
     public async store({ view,auth,request,response}: HttpContextContract) {
       const email = request.input('email')
       const password = request.input('password')
+      
 
+      //autenticação atraves do email e password
       try{
-      await auth.use('web').attempt(email, password)
+      await auth.use('web').attempt(email, password) 
       response.redirect().toRoute('posts.create')      //ver aonde vai redirecionar
       }
 

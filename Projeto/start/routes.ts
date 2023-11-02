@@ -69,6 +69,7 @@ Route.group(() => {
     .as('posts')
 }).namespace('App/Controllers/Http/Web')
 
+//rotas que precisam ser inseridas
 
 Route.get('/login', 'SessionsController.create').as('sessions.create')
 Route.post('/login', 'SessionsController.store').as('sessions.store')
@@ -76,3 +77,6 @@ Route.get('/logout', 'SessionsController.delete').as('sessions.delete')
 
 .middleware('auth')
 
+Route.group(() => {
+  
+})
