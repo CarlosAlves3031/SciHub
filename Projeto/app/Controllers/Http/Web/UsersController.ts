@@ -3,11 +3,7 @@ import User from 'App/Models/User'
 import UserService from 'App/Services/UserService'
 
 export default class UsersController {
-  public async create({ view, auth }: HttpContextContract) {
-    await auth.use('web').authenticate()
-  
-    console.log(auth.user!)
-
+  public async create({ view}: HttpContextContract) {
     return view.render('users/create')
   }
 
