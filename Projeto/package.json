@@ -73,6 +73,7 @@
     "@adonisjs/shield": "^7.1.1",
     "@adonisjs/view": "^6.2.0",
     "bootstrap": "^5.3.2",
+    "date-fns": "^2.30.0",
     "flowbite": "^1.8.1",
     "luxon": "^3.4.3",
     "pg": "^8.11.3",

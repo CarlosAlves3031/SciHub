@@ -1,3 +1,4 @@
+
 import BaseSchema from '@ioc:Adonis/Lucid/Schema'
 
 export default class Moments extends BaseSchema {
@@ -12,11 +13,9 @@ export default class Moments extends BaseSchema {
 
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE')
 
-      /**
-       * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL
-       */
-      table.timestamp('created_at', { useTz: true })
-      table.timestamp('updated_at', { useTz: true })
+      table.timestamps(true,true);
+      table.timestamp('create_time').nullable()
+     
     })
   }
 

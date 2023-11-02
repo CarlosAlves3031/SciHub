@@ -1,13 +1,18 @@
 @layout('layouts/logged')
 
 @section('content')
-<div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
-    <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
-       <p class="text-2xl text-gray-400 dark:text-gray-500">
-          <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-          </svg>
-       </p>
-    </div>
-</div>
+   @each(post in posts)
+   <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+      <div class="flex items-center justify-center h-48 mb-4 rounded bg-gray-50 dark:bg-gray-800">
+         <div class="flex items-center mb-4 space-x-4">
+            <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+            <div class="space-y-1 font-medium dark:text-white">
+                <p>{{post.user.email}}<time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">{{post.create_time}}</time></p>
+               <h1>{{post.title}}</h1>
+               <a href="#" class="block mb-5 text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">Veja mais.</a>
+            </div>
+        </div>  
+      </div>
+   </div>
+   @end
 @end

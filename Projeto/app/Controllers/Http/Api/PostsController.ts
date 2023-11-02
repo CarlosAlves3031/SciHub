@@ -31,17 +31,17 @@ export default class MomentsController {
         }
     }
     //Buscar todos os momentos
-    public async index({view}: HttpContextContract){
+    public async index({}: HttpContextContract){
         const posts = await Post.all()
-        return view.render('posts/index',{posts: posts})
+        return posts
     }
         
     
     //Buscar momento por id
-    public async show({view,params}: HttpContextContract){
+    public async show({params}: HttpContextContract){
         const post = await Post.findOrFail(params.id)
         await post.load('comments')
-        return view.render('posts/show',{post})
+        return post
     }
     
     //Deletar momento

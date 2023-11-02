@@ -3,6 +3,9 @@ import User from 'App/Models/User'
 import Post from 'App/Models/Post'
 import PostService from 'App/Services/PostService'
 import CreatePostValidator from 'App/Validators/CreatePostValidator'
+import { format } from 'date-fns'
+import { DateTime } from 'luxon'
+
 
 export default class PostsController {
   public async create({ view }: HttpContextContract) {
@@ -34,6 +37,25 @@ export default class PostsController {
   public async patch({}: HttpContextContract) {}
 
   public async index({ view }: HttpContextContract) {
-    return view.render('posts/index')
+    const posts = await Post.query().preload('user')
+
+    return view.render('posts/index', { posts: posts })
   }
+}
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
 }
