@@ -1,20 +1,29 @@
 import type { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
+import CreateSessionValidator from 'App/Validators/CreateSessionValidator'
 
 export default class SessionsController {
     public async create({ view }: HttpContextContract) {
         return view.render('sessions/create')
       }
 
-    public async store({ request, response,auth }: HttpContextContract) {
-        const email = request.input('email')
-        const password = request.input('password')
+    public async store({ request, response,auth,session }: HttpContextContract) {
+        const data = await request.validate(CreateSessionValidator)
 
         try {
-            await auth.use('web').attempt(email, password)
-            return response.redirect().toRoute('posts.index')
+            await auth.use('web').attempt(data.email,data.password)
         } catch (error) {
-            return response.badRequest(error.message)
+            session.flash({
+                "email": data.email,
+                "errors": {
+                  "password": [
+                    'Senha incorreta'
+                  ]
+                }
+            })
+            return response.redirect().toRoute('session.create')
         }
+        return response.redirect().toRoute('posts.index')
+
     }
 
     public async delete({ response,auth }: HttpContextContract) {

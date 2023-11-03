@@ -1,0 +1,23 @@
+<div>
+    <label for="email" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">{{label}}</label>
+    <input  value="{{ value? value: '' }}" name="{{ name?name:'' }}" type= "{{ type?type:'text' }}" placeholder="{{ placeholder?placeholder:''}}" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+    {{--  @if(type!='password' && !flashMessages.has(`errors.${name}`) && flashMessages.get(`${name}`)!=null)
+            value="{{flashMessages.get(`${name}`)}}" 
+        @endif   --}}
+    
+        class="input input-bordered
+            @if(flashMessages.has(`errors.${name}`))
+                input-error
+            @endif
+        "
+    />
+</div>
+@if(flashMessages.has(`errors.${name}`))
+
+    <div class="text-red-600">
+
+        {{flashMessages.get(`errors.${name}`)}}
+
+    </div>
+    
+@end

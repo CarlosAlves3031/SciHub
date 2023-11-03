@@ -55,14 +55,18 @@
                 </div>
                 <form class="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8" action="{{route("session.store")}}" method="POST">
                     <h3 class="text-xl font-medium text-gray-900 dark:text-white">Faça login para continuar!</h3>
-                    <div>
-                        <label for="email" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">E-mail</label>
-                        <input type="email" name="email" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" placeholder="name@company.com" required="">
-                    </div>
-                    <div>
-                        <label for="password" class="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300">Senha</label>
-                        <input type="password" name="password" id="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" required="">
-                    </div>
+                    @!component('components/login/input', {
+                        name: 'email',
+                        type: 'text',
+                        label: 'E-mail',
+                        placeholder: 'E-mail'
+                    })
+                    @!component('components/login/input', {
+                        name: 'password',
+                        type: 'password',
+                        label: 'Senha',
+                        placeholder: '••••••••'
+                    })
                     <div class="flex justify-between">
                         
                         <a href="#" class="text-sm text-blue-700 hover:underline dark:text-blue-500">Esqueceu sua senha?</a>
