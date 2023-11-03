@@ -27,24 +27,40 @@ export default class PostsController {
   }
   
 
-  public async show({ params, view }: HttpContextContract) {
+  public async show({ params, view,auth }: HttpContextContract) {
     const post = await Post.findOrFail(params.id)
-
+    await auth.use('web').authenticate()
     await post.load('user')
 
     return view.render('posts/show', { post: post })
   }
 
-  public async update({}: HttpContextContract) {}
+  public async update({request,response,params}: HttpContextContract) {
+    const post = await Post.findOrFail(params.id)
+    const payload = await request.validate(CreatePostValidator)
+    post.merge(payload)
+    await post.save()
+    return response.redirect().toRoute('posts.index', { id: post.id })
+  }
 
   public async patch({}: HttpContextContract) {}
 
-  public async index({ view,auth }: HttpContextContract) {
+  public async index({ view, auth }: HttpContextContract) {
     await auth.use('web').authenticate()
-    console.log(auth.user)
     const posts = await Post.query().preload('user')
 
-    return view.render('posts/index', { posts: posts })
+    // Formatando o campo `createdAt` de cada post
+    const formattedPosts = posts.map((post) => {
+      return {
+        ...post.toJSON(),
+        formattedCreatedAt: format(new Date(post.createdAt), 'dd/MM/yyyy HH:mm'),
+      }
+    })
+
+    const email = auth.user?.email // Acesse o email do usuário autenticado
+    const username = auth.user?.username // Acesse o nome de usuário do usuário autenticado
+
+    return view.render('posts/index', { posts: formattedPosts, email, username })
   }
 }
 

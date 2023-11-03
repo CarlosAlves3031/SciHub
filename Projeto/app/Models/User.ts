@@ -14,6 +14,13 @@ export default class User extends BaseModel {
   public password: string
 
   @column()
+  public nome: string
+
+  @column()
+  public username: string
+
+
+  @column()
   public rememberMeToken?: string
 
   @hasMany(() => Post)
