@@ -19,11 +19,6 @@
 */
 
 import Route from '@ioc:Adonis/Core/Route'
-import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
-
-Route.get('/', async ({ view }: HttpContextContract) => {
-  return view.render('home/show')
-}).as('home.show')
 
 // Route.group(() => {
 //   Route.group(() => {
@@ -67,4 +62,10 @@ Route.group(() => {
   })
     .prefix('/posts')
     .as('posts')
+  
+  Route.get('/', 'SessionsController.create').as('login')
+  Route.get('/login', 'SessionsController.create').as('session.create')
+  Route.post('/login', 'SessionsController.store').as('session.store')
+  Route.get('/logout', 'SessionsController.delete').as('session.delete')
 }).namespace('App/Controllers/Http/Web')
+

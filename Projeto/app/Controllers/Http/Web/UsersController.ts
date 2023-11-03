@@ -53,4 +53,5 @@ export default class UsersController {
 
     return view.render('users/index', { users: users })
   }
+
 }

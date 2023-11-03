@@ -8,21 +8,24 @@ import { DateTime } from 'luxon'
 
 
 export default class PostsController {
-  public async create({ view }: HttpContextContract) {
+  public async create({ view,auth }: HttpContextContract) {
+    await auth.use('web').authenticate()
     return view.render('posts/create')
   }
 
-  public async store({ request, response }: HttpContextContract) {
+  public async store({ request, response, auth }: HttpContextContract) {
+    await auth.use('web').authenticate()
     const payload = await request.validate(CreatePostValidator)
-
-    //TODO: Pegar o usuario logado
-    const user = await User.findOrFail(1)
-
+  
+    // Pegar o usuário logado
+    const user = auth.user!
+  
     const postService = new PostService()
     const post = await postService.create(user, payload)
-
-    return response.redirect().toRoute('posts.show', { id: post.id })
+  
+    return response.redirect().toRoute('posts.index', { id: post.id })
   }
+  
 
   public async show({ params, view }: HttpContextContract) {
     const post = await Post.findOrFail(params.id)
@@ -36,7 +39,9 @@ export default class PostsController {
 
   public async patch({}: HttpContextContract) {}
 
-  public async index({ view }: HttpContextContract) {
+  public async index({ view,auth }: HttpContextContract) {
+    await auth.use('web').authenticate()
+    console.log(auth.user)
     const posts = await Post.query().preload('user')
 
     return view.render('posts/index', { posts: posts })
@@ -58,4 +63,3 @@ export default class PostsController {
   
 
   
-}
