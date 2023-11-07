@@ -14,7 +14,6 @@ export default class CreateUserValidator {
     username: schema.string({}, [
       rules.minLength(3),
       rules.maxLength(15),
-      rules.regex(/^[a-z0-9_]+$/),
       rules.unique({table:'users', column: 'username'}),
       rules.trim()
     ]),
@@ -25,8 +24,7 @@ export default class CreateUserValidator {
       }),
       rules.unique({ table: 'users', column: 'email' }),
     ]),
-    password: schema.string({ trim: true }, [
-      rules.confirmed('password_confirmation'),
+    password: schema.string({}, [
       rules.minLength(3),
     ]),
   })
@@ -43,7 +41,6 @@ export default class CreateUserValidator {
     'password.minLength': 'Mínimo de três caracteres',
     'email.unique': 'E-mail já cadastrado',
     'email.email': 'E-mail inválido',
-    'password_confirmation.confirmed': 'As senhas devem ser iguais',
     'password.minLenght': 'A senha deve ter pelo menos 3 caracteres'
   }
 }

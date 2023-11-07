@@ -1,24 +1,55 @@
-@layout('layouts/main')
+@layout('layouts/logged')
 
 @section('content')
-  <p>
-    Atualize o usuário
-  </p>
-  <form action="{{ route('users.patch', { id: user.id }, { qs: { _method: 'PATCH' }}) }}" method="POST">
-    <div>
-      <label>
-        Email:
-      </label>
-      <input type="email" name="email" placeholder="Email" value="{{ user.email }}" />
+<div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mt-14">
+  <div class="bg-gray-100 w-screen h-screen lg:h-full lg:w-full">
+    <div class="flex flex-col-reverse justify-evenly items-center w-full h-full gap-5 px-16 py-8 lg:flex-row">
+
+      <form class="border border-gray-350 bg-white rounded-lg shadow relative p-6 rounded-xl flex flex-col gap-3 w-full max-w-xl"  action="{{ route('users.patch', { id: user.id }) }}" method="POST">
+        
+        <h3 class="text-xl font-medium text-center text-gray-900 dark:text-white">Editar Perfil</h3>
+        @!component('components/login/input', {
+          name: 'nome',
+          type: 'text',
+          label: 'Nome Completo',
+          placeholder: 'Nome Completo',
+          value: user.nome
+        })
+
+        @!component('components/login/input', {
+          name: 'username',
+          type: 'text',
+          label: 'Username',
+          placeholder: 'Username',
+          value: user.username
+        })
+        @!component('components/login/input', {
+          name: 'email',
+          type: 'email',
+          label: 'E-mail',
+          placeholder: 'E-mail',
+          value: user.email
+        })
+        <div class="flex flex-col gap-2 w-full">
+          <label for="password" class="text-sm font-medium text-gray-900">
+            Senha
+          </label>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="••••••••"
+            class="px-4 py-2 rounded-lg bg-gray-50 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500"
+            
+          />
+        </div>
+        <button href="{{ route('/posts') }}" type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+          Atualizar
+        </button>
+      </form>     
     </div>
-    <div>
-      <label>
-        Senha:
-      </label>
-      <input type="password" name="password" placeholder="Senha" />
-    </div>
-    <button type="submit">
-      Atualizar
-    </button>
-  </form>
+  </div>
+
+</div>
+  
 @end

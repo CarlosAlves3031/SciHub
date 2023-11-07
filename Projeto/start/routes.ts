@@ -46,7 +46,7 @@ Route.group(() => {
     Route.get('/new', 'UsersController.create').as('create')
     Route.post('/', 'UsersController.store').as('store')
     Route.get('/:id/update', 'UsersController.update').as('update')
-    Route.patch('/:id', 'UsersController.patch').as('patch')
+    Route.post('/:id', 'UsersController.patch').as('patch')
     Route.get('/:id', 'UsersController.show').as('show')
   })
     .prefix('/users')

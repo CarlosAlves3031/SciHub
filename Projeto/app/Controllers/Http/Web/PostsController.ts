@@ -27,12 +27,19 @@ export default class PostsController {
   }
   
 
-  public async show({ params, view,auth }: HttpContextContract) {
-    const post = await Post.findOrFail(params.id)
+  public async show({ params, view, auth }: HttpContextContract) {
+    // Autenticação do usuário
     await auth.use('web').authenticate()
+  
+    // Busca o post e carrega o usuário relacionado
+    const post = await Post.findOrFail(params.id)
     await post.load('user')
+  
+    // Formata a data de criação do post
 
-    return view.render('posts/show', { post: post })
+  
+    // Renderiza a view com os dados do post e a data formatada
+    return view.render('posts/show', { post, formattedCreatedAt: format(new Date(post.createdAt), 'dd/MM/yyyy HH:mm') })
   }
 
   public async update({request,response,params}: HttpContextContract) {

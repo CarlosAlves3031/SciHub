@@ -32,7 +32,8 @@ export default class UsersController {
     return view.render('users/show', { user: user })
   }
 
-  public async update({ params, view }: HttpContextContract) {
+  public async update({ params, view, auth }: HttpContextContract) {
+    await auth.use('web').authenticate()
     const user = await User.findOrFail(params.id)
 
     return view.render('users/update', { user: user })
@@ -42,9 +43,13 @@ export default class UsersController {
     const user = await User.findOrFail(params.id)
 
     const email = request.input('email', undefined)
+    const username = request.input('username', undefined)
+    const nome = request.input('username', undefined)
     const password = request.input('password', undefined)
 
     user.email = email ? email : user.email
+    user.username = username ? username : user.username
+    user.nome = nome ? nome : user.nome
     user.password = password ? password : user.password
 
     await user.save()
