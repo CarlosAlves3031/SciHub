@@ -2,7 +2,7 @@ import { DateTime } from 'luxon'
 import { BelongsTo,belongsTo,BaseModel, column, hasMany, HasMany } from '@ioc:Adonis/Lucid/Orm'
 import Comment from './Comment'
 import User from 'App/Models/User'
-
+import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser'
 export default class Post extends BaseModel {
   @hasMany(() => Comment)
   public comments: HasMany<typeof Comment>
@@ -17,7 +17,7 @@ export default class Post extends BaseModel {
   public description: string
 
   @column()
-  public image: string
+  public image: MultipartFileContract
 
   @column()
   public userId: number

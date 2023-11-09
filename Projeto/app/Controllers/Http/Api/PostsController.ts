@@ -4,7 +4,7 @@ import Post from 'App/Models/Post'
 import Application from '@ioc:Adonis/Core/Application'
 
 
-export default class MomentsController {
+export default class PostsController {
     //Inserir
     private validadeOptions = {
         types: ['image'],
@@ -64,19 +64,22 @@ export default class MomentsController {
             post.description = body.description
     
             if (post.image != body.image || !post.image) {
-                    const image = request.file('image', this.validadeOptions)
-    
+                const image = request.file('image', this.validadeOptions)
+
                 if (image) {
                     const imageName = `${uuidv4()}.${image!.extname}`
-    
+
                     await image.move(Application.tmpPath('uploads'), {
                         name: imageName,
                     })
-    
-                    post.image = imageName
+
+                    const imagePath = Application.tmpPath('uploads', imageName)
+                    const multipartFile = await MultipartFile.create(imagePath)
+
+                    post.image = multipartFile
                 }
             }
-    
+
             await post.save()
     
             return {
