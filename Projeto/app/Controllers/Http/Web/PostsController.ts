@@ -47,14 +47,14 @@ export default class PostsController {
     await post.load('user');
     //const coverImage = request.file('image')
     // Defina o caminho base para as imagens
-    const baseImageUrl = Application.tmpPath('uploads');
-  
+    //const baseImageUrl = Application.tmpPath('uploads');
+    //
     // Inicialize um array para armazenar os caminhos das imagens
     const imagePaths: string[] = [];
   
     // Verifique se a postagem tem uma imagem e adicione o caminho da imagem ao array
     if (post.image) {
-      const imagePath = baseImageUrl + '/' + post.image;
+      const imagePath = '/uploads' + '/' + post.image;
       imagePaths.push(imagePath);
     }
   
