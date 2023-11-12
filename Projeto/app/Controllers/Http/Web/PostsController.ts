@@ -45,11 +45,19 @@ export default class PostsController {
     // Encontre a postagem e carregue o usuário relacionado
     const post = await Post.findOrFail(params.id);
     await post.load('user');
-    //const coverImage = request.file('image')
-    // Defina o caminho base para as imagens
-    //const baseImageUrl = Application.tmpPath('uploads');
-    //
-    // Inicialize um array para armazenar os caminhos das imagens
+    //Encontre a postagem e carregue os comentários relacionados
+    await post.load('comments');
+    //Passando os comentários para a view
+    const comments = post.comments;
+
+    let commentDate, comment
+    for(comment of comments){
+      await comment.load('user')
+      commentDate = comment.createdAt.toFormat("dd 'de' MMM'.' yyyy '-' HH':'mm")
+      comment = Object.assign(comment, {user: comment.user, date: commentDate})
+
+    }
+   
     const imagePaths: string[] = [];
   
     // Verifique se a postagem tem uma imagem e adicione o caminho da imagem ao array
@@ -60,6 +68,7 @@ export default class PostsController {
   
     // Renderiza a view com os dados da postagem, incluindo os caminhos das imagens
     return view.render('posts/show', {
+      comments,
       post,
       imagePaths,
       formattedCreatedAt: format(new Date(post.createdAt.toJSDate()), 'dd/MM/yyyy HH:mm'),
@@ -95,6 +104,16 @@ export default class PostsController {
     const username = auth.user?.username // Acesse o nome de usuário do usuário autenticado
 
     return view.render('posts/index', { posts: formattedPosts, email, username })
+  }
+
+  public async destroy({params, response, auth} : HttpContextContract){
+    const post = await Post.findOrFail(params.id)
+
+    if(post.userId == auth.user!.id){
+      await PostService.destroy(post.id)
+    }
+    
+    return response.redirect().toRoute('posts.index')
   }
 }
 

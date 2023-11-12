@@ -44,7 +44,7 @@ export default class UsersController {
 
     const email = request.input('email', undefined)
     const username = request.input('username', undefined)
-    const nome = request.input('username', undefined)
+    const nome = request.input('nome', undefined)
     const password = request.input('password', undefined)
 
     user.email = email ? email : user.email
@@ -54,7 +54,7 @@ export default class UsersController {
 
     await user.save()
 
-    return response.redirect().toRoute('users.show', { id: user.id })
+    return response.redirect().toRoute('users.update', { id: user.id })
   }
 
   public async index({ view }: HttpContextContract) {
@@ -62,5 +62,18 @@ export default class UsersController {
 
     return view.render('users/index', { users: users })
   }
+ 
+  public async destroy({ auth, response }: HttpContextContract) {
+    await auth.use('web').authenticate();
+    const user = auth.user;
+    if (!user) {
+      throw new Error('Usuário não autenticado');
+    }
+    await user.delete();
+   
+    await auth.use('web').logout();
+    return response.redirect().toRoute('session.create');
+  }
+  
 
 }

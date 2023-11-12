@@ -6,9 +6,9 @@ export default class Comments extends BaseSchema {
   public async up() {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id')
-      table.string('username')
       table.string('text')
       table.integer('post_id').unsigned().references('posts.id').onDelete('CASCADE')
+      table.integer('user_id').unsigned().references('users.id')
 
       /**
        * Uses timestamptz for PostgreSQL and DATETIME2 for MSSQL

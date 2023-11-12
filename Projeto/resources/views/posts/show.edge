@@ -4,29 +4,55 @@
 
 <main class="pt-8 pb-16 lg:pt-16 lg:pb-24 bg-white dark:bg-gray-900 antialiased">
   <div class="flex justify-between px-4 mx-auto max-w-screen-xl ">
-      <article class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
-          <header class="mb-4 lg:mb-6 not-format">
-              <address class="flex items-center mb-6 not-italic">
-                  <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                      <img class="mr-4 w-16 h-16 rounded-full" src="" alt="{{username}}">
-                      <div>
-                          <a href="#" rel="author" class="text-xl font-bold text-gray-900 dark:text-white">{{post.user.username}}</a>
-                          <p class="text-base text-gray-500 dark:text-gray-400">{{post.user.nome}}</p>
-                          <p class="text-base text-gray-500 dark:text-gray-400"><time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">{{formattedCreatedAt}}</time></p>
-                      </div>
-                  </div>
-              </address>
-              <h1 class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{{post.title}}</h1>
-          </header>
-          <p class="lead">{{post.description}}</p>
-          <br>
-          @each (imagePath in imagePaths)
-          <img src="{{ imagePath }}" alt="Imagem do Post">
-          @end
-        </article>
-
-   
-        
+        <article class="mx-auto w-full max-w-2xl format format-sm sm:format-base lg:format-lg format-blue dark:format-invert">
+            <header class="mb-4 lg:mb-6 not-format">
+                <address class="flex items-center mb-6 not-italic">
+                    <div class="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
+                        <img class="mr-4 w-16 h-16 rounded-full" src="" alt="{{username}}">
+                        <div>
+                            <a href="#" rel="author" class="text-xl font-bold text-gray-900 dark:text-white">{{post.user.username}}</a>
+                            <p class="text-base text-gray-500 dark:text-gray-400">{{post.user.nome}}</p>
+                            <p class="text-base text-gray-500 dark:text-gray-400"><time datetime="" class="block text-sm text-gray-500 dark:text-gray-400">{{formattedCreatedAt}}</time></p>
+                        </div>
+                    </div>
+                </address>
+                <h1 class="mb-4 text-3xl font-extrabold leading-tight text-gray-900 lg:mb-6 lg:text-4xl dark:text-white">{{post.title}}</h1>
+            </header>
+            <p class="lead">{{post.description}}</p>
+            <br>
+            @each (imagePath in imagePaths)
+                <img src="{{ imagePath }}" alt="Imagem do Post">
+            @end
+            <br>
+            <form action="{{ route('posts.comments.store', { id: post.id }) }}" method="POST">
+                <h2 class="text-sm font-semibold text-gray-900 dark:text-white">Deixe seu comentario</h2>
+                <div class="w-full mb-4 border border-gray-200 rounded-lg bg-gray-50 dark:bg-gray-700 dark:border-gray-600">
+                    @!form.textarea({
+                        name: 'content',
+                        type: 'text',
+                        label: '',
+                        placeholder: 'Crie um comentário...'
+                      })
+                    <div class="flex items-center justify-between px-3 py-2 border-t dark:border-gray-600">
+                        <button type="submit" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-700 rounded-lg focus:ring-4 focus:ring-blue-200 dark:focus:ring-blue-900 hover:bg-blue-800">
+                            Comentar
+                        </button>
+                        
+                    </div>
+                </div>
+            </form>
+            @each (comment in comments)
+            <article class=" border-2 border-gray-300 border-dashed rounded-lg">
+                <div class="flex items-center mb-4 space-x-4">
+                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+                    <div class="space-y-1 font-medium dark:text-white">
+                        <p><time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">Data do Comentario</time></p>
+                    </div>
+                </div>
+                <p class="mb-2 text-gray-500 dark:text-gray-400">{{comments.text}}</p>     
+            </article>
+            @end
+        </article>  
   </div>
 </main>
 
