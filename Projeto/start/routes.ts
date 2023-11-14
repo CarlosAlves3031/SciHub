@@ -61,7 +61,8 @@ Route.group(() => {
     Route.patch('/:id', 'PostsController.patch').as('patch')
     Route.get('/:id', 'PostsController.show').as('show')
     Route.post('/:id/comments', 'CommentsController.store').as('comments.store')
-    //Route.get('/:id', 'CommentsController.show').as('comments.show')
+    
+    
   })
     .prefix('/posts')
     .as('posts')

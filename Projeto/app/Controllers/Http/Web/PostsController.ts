@@ -1,5 +1,6 @@
 import { HttpContextContract } from '@ioc:Adonis/Core/HttpContext'
 import Post from 'App/Models/Post'
+import User from 'App/Models/User'
 import PostService from 'App/Services/PostService'
 import CreatePostValidator from 'App/Validators/CreatePostValidator'
 import { format } from 'date-fns'
@@ -10,7 +11,10 @@ import { MultipartFileContract } from '@ioc:Adonis/Core/BodyParser' // Add this 
 export default class PostsController {
   public async create({ view,auth }: HttpContextContract) {
     await auth.use('web').authenticate()
-    return view.render('posts/create')
+    const email = auth.user?.email // Acesse o email do usuário autenticado
+    const username = auth.user?.username // Acesse o nome de usuário do usuário autenticado
+    
+    return view.render('posts/create'{email,username})
   }
 
   public async store({ request, response, auth }: HttpContextContract) {
@@ -41,42 +45,47 @@ export default class PostsController {
   public async show({ params, view, auth }: HttpContextContract) {
     // Autenticação do usuário
     await auth.use('web').authenticate();
-  
+    const email = auth.user?.email // Acesse o email do usuário autenticado
+    const username = auth.user?.username // Acesse o nome de usuário do usuário autenticado
+
     // Encontre a postagem e carregue o usuário relacionado
     const post = await Post.findOrFail(params.id);
     await post.load('user');
-    //Encontre a postagem e carregue os comentários relacionados
+    // Encontre a postagem e carregue os comentários relacionados
     await post.load('comments');
-    //Passando os comentários para a view
-    const comments = post.comments;
 
-    let commentDate, comment
-    for(comment of comments){
-      await comment.load('user')
-      commentDate = comment.createdAt.toFormat("dd 'de' MMM'.' yyyy '-' HH':'mm")
-      comment = Object.assign(comment, {user: comment.user, date: commentDate})
+    // Mapeie os comentários para incluir o nome do usuário
+    const commentsWithUsernames = await Promise.all(
+        post.comments.map(async (comment) => {
+            // Assuming you have the User model imported
+            const user = await User.find(comment.userId);
+            const username = user ? user.username : 'Unknown User';
+            return {
+                ...comment.toJSON(),
+                username,
+            };
+        })
+    );
 
-    }
-   
     const imagePaths: string[] = [];
-  
+
     // Verifique se a postagem tem uma imagem e adicione o caminho da imagem ao array
     if (post.image) {
-      const imagePath = '/uploads' + '/' + post.image;
-      imagePaths.push(imagePath);
+        const imagePath = '/uploads' + '/' + post.image;
+        imagePaths.push(imagePath);
     }
-  
+
     // Renderiza a view com os dados da postagem, incluindo os caminhos das imagens
     return view.render('posts/show', {
-      comments,
-      post,
-      imagePaths,
-      formattedCreatedAt: format(new Date(post.createdAt.toJSDate()), 'dd/MM/yyyy HH:mm'),
+        username,
+        email,
+        comments: commentsWithUsernames,
+        post,
+        imagePaths,
+        formattedCreatedAt: format(new Date(post.createdAt.toJSDate()), 'dd/MM/yyyy HH:mm'),
     });
-  }
+}
 
-  
-  
 
   public async update({request,response,params}: HttpContextContract) {
     const post = await Post.findOrFail(params.id)
@@ -106,14 +115,7 @@ export default class PostsController {
     return view.render('posts/index', { posts: formattedPosts, email, username })
   }
 
-  public async destroy({params, response, auth} : HttpContextContract){
-    const post = await Post.findOrFail(params.id)
-
-    if(post.userId == auth.user!.id){
-      await PostService.destroy(post.id)
-    }
-    
-    return response.redirect().toRoute('posts.index')
+  public async destroy({} : HttpContextContract){
   }
 }
 
