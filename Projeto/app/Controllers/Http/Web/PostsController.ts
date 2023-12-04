@@ -115,8 +115,44 @@ export default class PostsController {
     return view.render('posts/index', { posts: formattedPosts, email, username })
   }
 
-  public async destroy({} : HttpContextContract){
+  public async destroy({ params, response }: HttpContextContract) {
+    const post = await Post.findOrFail(params.id);
+    await post.delete();
+    return response.redirect().toRoute('posts.index');
   }
+  
+  
+  public async indexForUser({ view, auth }: HttpContextContract) {
+    // Certifique-se de que o usuário está autenticado
+    await auth.use('web').authenticate();
+  
+    // Obtenha o usuário autenticado
+    const user = auth.user!;
+  
+    // Obtenha todos os posts relacionados ao usuário autenticado
+    const posts = await Post.query().where('user_id', user.id).preload('user');
+  
+    // Formatando o campo `createdAt` de cada post
+    const formattedPosts = posts.map((post) => {
+      return {
+        ...post.toJSON(),
+        formattedCreatedAt: format(post.createdAt.toJSDate(), 'dd/MM/yyyy HH:mm'),
+      };
+    });
+  
+    const email = user.email;
+    const username = user.username;
+    const userId = auth.user?.id;
+    const postsId = posts.map((post) => {
+      return {
+        ...post.toJSON(),
+        id: post.id,
+      };
+    });
+  
+    return view.render('posts/index', { posts: formattedPosts, email, username,userId,postsId });
+  }
+  
 }
 
 

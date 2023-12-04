@@ -61,7 +61,10 @@ Route.group(() => {
     Route.patch('/:id', 'PostsController.patch').as('patch')
     Route.get('/:id', 'PostsController.show').as('show')
     Route.post('/:id/comments', 'CommentsController.store').as('comments.store')
-    
+    Route.get('/posts/user', 'PostsController.indexForUser').as('indexForUser');
+    Route.delete('/:id', 'PostsController.destroy').as('destroy');
+
+
     
   })
     .prefix('/posts')
