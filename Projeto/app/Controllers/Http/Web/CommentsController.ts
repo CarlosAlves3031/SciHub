@@ -20,7 +20,7 @@ export default class CommentsController {
     const comment = await commentService.create(user,post, data)
   
     await comment.save()
-    return response.redirect().toRoute('posts.index', { id: post.id })
+    return response.redirect().toRoute('posts.show', { id: post.id })
   }
   public async index({ params }: HttpContextContract) {
     const postId = params.postId

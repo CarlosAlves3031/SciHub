@@ -60,11 +60,14 @@ export default class PostsController {
             // Assuming you have the User model imported
             const user = await User.find(comment.userId);
             const username = user ? user.username : 'Unknown User';
+            
             return {
                 ...comment.toJSON(),
-                username,
+                username, 
+
             };
         })
+        
     );
 
     const imagePaths: string[] = [];
@@ -108,6 +111,7 @@ export default class PostsController {
         formattedCreatedAt: format(post.createdAt.toJSDate(), 'dd/MM/yyyy HH:mm'),
       }
     })
+    
 
     const email = auth.user?.email // Acesse o email do usuário autenticado
     const username = auth.user?.username // Acesse o nome de usuário do usuário autenticado

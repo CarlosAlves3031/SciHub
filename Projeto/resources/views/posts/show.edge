@@ -44,16 +44,15 @@
             @each (comment in comments)
             <article class="border-2 border-gray-300 border-dashed rounded-lg">
                 <div class="flex items-center mb-4 space-x-4">
-                    <img class="w-10 h-10 rounded-full" src="/docs/images/people/profile-picture-5.jpg" alt="">
+                    
                     <div class="space-y-1 font-medium dark:text-white">
                         <p>{{ comment.username }}</p>
-                        <time datetime="2014-08-16 19:00" class="block text-sm text-gray-500 dark:text-gray-400">
-                            {{ comment.createdAt }}
-                        </time>
+                       
                     </div>
                 </div>
-                <p class="mb-2 text-gray-500 dark:text-gray-400">{{ comment.text }}</p>
+                <p class="mb-4 text-black-500 dark:text-gray-400">{{ comment.text }}</p>
             </article>
+            <br>
             @end
         </article>  
       
